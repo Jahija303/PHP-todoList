@@ -20,6 +20,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/todoList/db/db.php';
 $conn = connectToServer();
 useDB($conn, 'todo');
 
+session_start();
+
 if(isset($_REQUEST['username'])) {
 
     function test_input($data) {
@@ -39,23 +41,31 @@ if(isset($_REQUEST['username'])) {
     if(mysqli_num_rows($retval) == 1) {
         
         $row = mysqli_fetch_assoc($retval);
+        
         $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['username'] = $username;
 
         header("Location: /todoList/index.php");
 
     } else {
-        echo "<div class='form'>
-              <h3>Incorrect Username/password.</h3><br/>
-              <p class='link'>Click here to <a href='/todoList/auth/login.php'>Login</a> again.</p>
-              </div>";
+        $_SESSION['errormsg'] = "Invalid username or password";
+        header("Location: /todoList/auth/login.php");
     }
 } else {
-    ?>
+
+?>
 
 <div class="login-form">
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-        <h2 class="text-center">Log in</h2>       
+        <h2 class="text-center">Log in</h2>
+            <span class="err">
+                <?php 
+                    if(isset($_SESSION['errormsg'])) {
+                        echo $_SESSION['errormsg'];
+                        unset($_SESSION['errormsg']);
+                    }
+                ?>
+            </span> 
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Username" required="required" name = "username">
         </div>
@@ -73,11 +83,10 @@ if(isset($_REQUEST['username'])) {
     <p class="text-center"><a href="/todoList/auth/registration.php">Create an Account</a></p>
 </div>
 
-    <?php
+<?php
 }
 
 closeConnection($conn);
-
 ?>
 
 </body>
