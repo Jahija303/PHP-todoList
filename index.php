@@ -23,11 +23,14 @@
     <title>Todo</title>
 </head>
 <body>
-    
-    <h1>Hi <?php echo $_SESSION['username'];?> </h1>
-    <a href="/todoList/auth/logout.php">logout</a>
 
-    <!-- Template -->
+<!-- Header -->
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h3 class="my-0 mr-md-auto font-weight-bold">Hi <?php echo $_SESSION['username'];?> </h3>
+    <a class="btn btn-outline-primary" href="/todoList/auth/logout.php">Logout</a>
+</div>
+
+<!-- Template -->
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
@@ -66,17 +69,15 @@
     </div>
 </div>
 
-    <!-- End Template -->
+<!-- End Template -->
 
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
 
 <?php
-
     closeConnection($conn);
-
 ?>
