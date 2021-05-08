@@ -16,10 +16,26 @@
     require $_SERVER['DOCUMENT_ROOT'] . '/todoList/model/task.php';
 
     //Select users tasks
-    $retval = selectUserTasks($conn,$_SESSION['user_id']);
+    $retval_tasks = selectUserTasks($conn,$_SESSION['user_id']);
     
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/todoList/views/index.view.php';
+    if(isset($_REQUEST['description'])) {
+
+        $description = test_input($_POST["description"]);
+
+        $user_id = $_SESSION['user_id'];
+        $retval = insertIntoTask($conn, $description, $user_id);
+
+        if($retval) {
+            header("Location: /todoList/index.php");
+        } else {
+            $_SESSION['errormsg'] = "Cannot create task";
+            header("Location: /todoList/index.php");
+        }
+
+    } else {
+        require $_SERVER['DOCUMENT_ROOT'] . '/todoList/views/index.view.php';
+    }
 
 
     closeConnection($conn);

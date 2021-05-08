@@ -8,13 +8,6 @@ session_start();
 
 if(isset($_REQUEST['username'])) {
 
-    function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $username = test_input($_POST["username"]);
        $password = md5(test_input($_POST["password"]));

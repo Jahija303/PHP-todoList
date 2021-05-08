@@ -78,8 +78,20 @@ function insertIntoUser($conn, $username, $password, $email) {
     return $retval;
 }
 
+function insertIntoTask($conn, $description, $user_id) {
+    $sql = "INSERT INTO task (user_id, description, completed)".
+    "VALUES ('$user_id', '$description', 0)";
+    $retval = mysqli_query($conn, $sql);
+
+    if(!$retval) {
+        die('Could not insert data into table task: ' . mysqli_error($conn));
+    }
+    
+    return $retval;
+}
+
 function checkIfUserExists($conn, $username, $password) {
-    $sql = "SELECT * FROM todo.user WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
     $retval = mysqli_query($conn, $sql);
 
     if(!$retval) {
@@ -90,7 +102,7 @@ function checkIfUserExists($conn, $username, $password) {
 }
 
 function selectUserTasks($conn, $user_id) {
-    $sql = "SELECT * FROM todo.task WHERE user_id = '$user_id'";
+    $sql = "SELECT * FROM task WHERE user_id = '$user_id'";
     $retval = mysqli_query($conn, $sql);
 
     if(!$retval) {
@@ -98,6 +110,13 @@ function selectUserTasks($conn, $user_id) {
     }
     
     return $retval;
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 ?>

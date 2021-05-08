@@ -9,13 +9,6 @@
         $result = "";
 
          if(isset($_REQUEST["username"])) { 
-         
-            function test_input($data) {
-                $data = trim($data);
-                $data = stripslashes($data);
-                $data = htmlspecialchars($data);
-                return $data;
-             }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -45,10 +38,18 @@
 
             if($result) {
                 session_start();
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['username'] = $username;
 
-                header("Location: /todoList/index.php");
+                $retval = checkIfUserExists($conn, $username, $password);
+
+                if(mysqli_num_rows($retval) == 1) {
+                    $row = mysqli_fetch_assoc($retval);
+        
+                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['username'] = $username;
+
+                    header("Location: /todoList/index.php");
+                }
+                
             } else {
                 echo "<div class='form'>
                       <h3>Required fields are missing.</h3><br/>

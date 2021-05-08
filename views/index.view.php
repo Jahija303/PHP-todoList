@@ -27,11 +27,24 @@
                 <div class="card px-3">
                     <div class="card-body">
                         <h4 class="card-title"> Todo list</h4>
-                        <div class="add-items d-flex"> <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                            <div class="add-items d-flex"> 
+                                <input type="text" class="form-control todo-list-input" required="required" name = "description" placeholder="What do you need to do today?"> 
+                                <button class="add btn btn-primary font-weight-bold todo-list-add-btn" type="submit">Add</button> 
+                            </div>
+                        </form>
+                        <span class="err">
+                            <?php 
+                                if(isset($_SESSION['errormsg'])) {
+                                    echo $_SESSION['errormsg'];
+                                    unset($_SESSION['errormsg']);
+                                }
+                            ?>
+                        </span>
                         <div class="list-wrapper">
                             <ul class="d-flex flex-column-reverse todo-list">
                                 <?php 
-                                    while($rows = mysqli_fetch_assoc($retval)) {
+                                    while($rows = mysqli_fetch_assoc($retval_tasks)) {
                                         $task = new Task($rows['description'], $rows['completed']);
                                         ?>
                                             <li <?php if($task->isCompleted()) { ?> class="completed" <?php } ?>>
