@@ -17,7 +17,6 @@
 
     //Select users tasks
     $retval_tasks = selectUserTasks($conn,$_SESSION['user_id']);
-    
 
     if(isset($_REQUEST['description'])) {
 
@@ -36,7 +35,6 @@
     } else {
         require $_SERVER['DOCUMENT_ROOT'] . '/todoList/views/index.view.php';
     }
-
 
     closeConnection($conn);
 ?>
