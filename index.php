@@ -1,83 +1,26 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/todoList/auth/auth_session.php';
+    //Database functions
     require $_SERVER['DOCUMENT_ROOT'] . '/todoList/db/db.php';
+
+    //Database connection
     $conn = connectToServer();
+    //Create database and table if they do not exist
     createDB($conn,'todo');
     useDB($conn, 'todo');
-    createTaskTable($conn);
     createUsersTable($conn);
+    createTaskTable($conn);
 
-?>
+    //Required files
+    require $_SERVER['DOCUMENT_ROOT'] . '/todoList/auth/auth_session.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/todoList/model/task.php';
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Todo</title>
-</head>
-<body>
-
-<!-- Header -->
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h3 class="my-0 mr-md-auto font-weight-bold">Hi <?php echo $_SESSION['username'];?> </h3>
-    <a class="btn btn-outline-primary" href="/todoList/auth/logout.php">Logout</a>
-</div>
-
-<!-- Template -->
-
-<div class="page-content page-container" id="page-content">
-    <div class="padding">
-        <div class="column container d-flex justify-content-center">
-            <div class="col-md-12">
-                <div class="card px-3">
-                    <div class="card-body">
-                        <h4 class="card-title"> Todo list</h4>
-                        <div class="add-items d-flex"> <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
-                        <div class="list-wrapper">
-                            <ul class="d-flex flex-column-reverse todo-list">
-                                <li>
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> For what reason would it be advisable. <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                                <li class="completed">
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox" checked=""> For what reason would it be advisable for me to think. <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                                <li>
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> it be advisable for me to think about business content? <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                                <li>
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> Print Statements all <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                                <li class="completed">
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox" checked=""> Call Rampbo <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                                <li>
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> Print bills <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- End Template -->
-
+    //Select users tasks
+    $retval = selectUserTasks($conn,$_SESSION['user_id']);
     
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
-</body>
-</html>
+    require $_SERVER['DOCUMENT_ROOT'] . '/todoList/views/index.view.php';
 
-<?php
+
     closeConnection($conn);
 ?>

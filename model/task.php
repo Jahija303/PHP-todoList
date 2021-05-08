@@ -1,20 +1,26 @@
 <?php
 
 class Task {
-    public $description;
-    public $completed = false;
 
-    function __construct($description)
+    public $description;
+    public $completed;
+
+    function __construct($description, $completed)
     {
         $this->description = $description;
+        $this->completed = $completed;
     }
 
-    public function completeTaskj() {
-        $this->completed = true;
+    public function toggleCompleteTask() {
+        $this->completed = true ? $this->completed = false : $this->completed = true;
     }
 
     public function isCompleted() {
         return $this->completed;
+    }
+
+    public function getDescription() {
+        return $this->description;
     }
 }
 

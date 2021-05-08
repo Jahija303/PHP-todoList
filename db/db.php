@@ -56,6 +56,7 @@ function createUsersTable($conn) {
 function createTaskTable($conn) {
     $sql = "CREATE TABLE IF NOT EXISTS task(".
         "task_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,".
+        "user_id INT NOT NULL,".
         "description NVARCHAR(20) NOT NULL,".
         "completed TINYINT DEFAULT(0));";
     $retval = mysqli_query($conn, $sql);
@@ -78,13 +79,24 @@ function insertIntoUser($conn, $username, $password, $email) {
 }
 
 function checkIfUserExists($conn, $username, $password) {
-    $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM todo.user WHERE username = '$username' AND password = '$password'";
     $retval = mysqli_query($conn, $sql);
 
     if(!$retval) {
         die('Could not retrieve data from table user: ' . mysqli_error($conn));
     }
 
+    return $retval;
+}
+
+function selectUserTasks($conn, $user_id) {
+    $sql = "SELECT * FROM todo.task WHERE user_id = '$user_id'";
+    $retval = mysqli_query($conn, $sql);
+
+    if(!$retval) {
+        die('Could not select data from table tasks: ' . mysqli_error($conn));
+    }
+    
     return $retval;
 }
 
