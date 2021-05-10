@@ -112,6 +112,32 @@ function selectUserTasks($conn, $user_id) {
     return $retval;
 }
 
+function toggleTaskCompleted($conn, $task_id, $completed) {
+    $sql = "UPDATE task
+    SET completed = $completed
+    WHERE task_id = $task_id";
+
+    $retval = mysqli_query($conn, $sql);
+
+    if(!$retval) {
+        die('Could not update table tasks: ' . mysqli_error($conn));
+    }
+
+    return $retval;
+}
+
+function deleteTask($conn, $task_id) {
+    $sql = 'DELETE FROM task WHERE task_id = '.$task_id;
+
+    $retval = mysqli_query($conn, $sql);
+
+    if(!$retval) {
+        die('Could not delete task: ' . mysqli_error($conn));
+    }
+
+    return $retval;
+}
+
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);

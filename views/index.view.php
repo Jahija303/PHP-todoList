@@ -45,16 +45,16 @@
                             <ul class="d-flex flex-column-reverse todo-list">
                                 <?php 
                                     while($rows = mysqli_fetch_assoc($retval_tasks)) {
-                                        $task = new Task($rows['description'], $rows['completed']);
+                                        $task = new Task($rows['task_id'],$rows['description'], $rows['completed']);
                                         ?>
-                                            <li <?php if($task->isCompleted()) { ?> class="completed" <?php } ?>>
+                                            <li id="<?= $task->getTaskID() ?>"; <?php if($task->getCompleted()) { ?> class="completed" <?php } ?>>
                                                 <div class="form-check"> 
                                                     <label class="form-check-label"> 
-                                                        <input class="checkbox" type="checkbox" <?php if($task->isCompleted()) { ?> checked="" <?php } ?>> <?php echo $task->getDescription(); ?>
+                                                        <input id="task-checkbox<?= $task->getTaskID() ?>" class="checkbox" type="checkbox" onchange="toggleCheckboxDB(<?= $task->getTaskID() ?>)" <?php if($task->getCompleted()) { ?> checked <?php } ?>> <?php echo $task->getDescription(); ?>
                                                         <i class="input-helper"></i>
                                                     </label> 
                                                 </div> 
-                                                <i class="remove mdi mdi-close-circle-outline"></i>
+                                                <i class="remove mdi mdi-close-circle-outline" onclick="removeTaskDB(<?= $task->getTaskID() ?>)"></i>
                                             </li>                                 
                                         <?php
                                     }
