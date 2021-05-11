@@ -1,4 +1,4 @@
 # PHP-todoList
 
-<img src="images/2.png">
- 
+<img src="images/index.png">
+<img src="images/login.png">
